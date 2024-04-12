@@ -1,0 +1,81 @@
+@model List<GULLEM_NEW_MVC.Entities.ClientInfo>
+
+<div class="clientInfo-in">
+    <h1>USER TYPE</h1>
+
+    <a class="btn btn-success" href="/client/addclient">Create User</a>
+
+    <div class="table-container" id="table-container">
+        <table class="table table-responsive table-striped table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">UserType</th>
+                    <th scope="col">Fi.Name</th>
+                    <th scope="col">Mi.Name</th>
+                    <th scope="col">La.Name</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">ZipCode</th>
+                    <th scope="col">Birthday</th>
+                    <th scope="col">Age</th>
+                    <th scope="col">Fthr.Name</th>
+                    <th scope="col">Mthr.Name</th>
+                    <th scope="col">Civ.Status</th>
+                    <th scope="col">Religion</th>
+                    <th scope="col">Occupation</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    @foreach (var client in Model)
+                    {
+                        <tr>
+                            <td>@client.Id</td>
+                            @if (ViewData["types"] != null)
+                            {
+                                var userTypes = (List<GULLEM_NEW_MVC.Entities.UserType>)ViewData["types"];
+                                var userType = userTypes.FirstOrDefault(t => t.Id == client.UerType);
+                                if (userType != null)
+                                {
+                                    <td>@userType.Name</td>
+                                }
+                                else
+                                {
+                                    <td>User Type Not Found</td>
+                                }
+                            }
+                            else
+                            {
+                                <td>User Types Not Loaded</td>
+                            }
+                            <td>@client.FirstName</td>
+                            <td>@client.MiddleName</td>
+                            <td>@client.LastName</td>
+                            <td>@client.Address</td>
+                            <td>@client.ZipCode</td>
+                            <td>@client.Birthday?.ToString("MM/dd/yyyy")</td>
+                            <td>@client.Age</td>
+                            <td>@client.NameOfFather</td>
+                            <td>@client.NameOfMother</td>
+                            <td>@client.CivilStatus</td>
+                            <td>@client.Religion</td>
+                            <td>@client.Occupation</td>
+                            <td class="Btn-Container">
+                                <a class="btn btn-warning Btn" href="client/UpdateClient/@client.Id">Update</a>
+                                <a class="btn btn-danger Btn" href="client/delete/@client.Id">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="14">No data available.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

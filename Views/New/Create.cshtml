@@ -1,0 +1,16 @@
+@model GULLEM_NEW_MVC.Entities.UserType
+
+<div class="userType-div">
+    <h1 class="userType-div-title">USER TYPE</h1>
+
+    <form class="userType-div-form" action="Create" method="post">
+        <div class="UDF-upper">
+            <label for="Name">Enter User</label>
+            <input type="text" name="Name">
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        </div>
+        <div class="UDF-lower">
+            <input type="submit" class="btn btn-success" value="SUBMIT">
+        </div>
+    </form>
+</div>

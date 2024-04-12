@@ -1,0 +1,6 @@
+//type this im the terminal
+dotnet ef dbcontext scaffold "Server=localhost\SQLEXPRESS;Database=LIBRARY;TrustServerCertificate=true;Trusted_C
+onnection=True" Microsoft.EntityFrameworkCore.SqlServer -o Entities -f
+
+//if don't have a dotnet ef file install this, note that the package with your version number. 
+ dotnet tool install --global dotnet-ef --version 7.0.0`

@@ -1,0 +1,19 @@
+@model GULLEM_NEW_MVC.Entities.UserType
+
+<div class="userType-div">
+    <h1 class="userType-div-title">UPDATE USER</h1>
+
+    <form class="userType-div-form" asp-action="Update" method="post">
+        <input type="hidden" asp-for="Id">
+
+        <div class="form-group UDF-upper">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" class="form-control">
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="UDF-lower">
+            <button type="submit" class="btn btn-success">Update</button>
+        </div>
+    </form>
+</div>

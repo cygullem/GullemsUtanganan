@@ -1,0 +1,222 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+.container{
+  padding-bottom: 20px;
+  height: 80vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.footer-container{
+  height: 20vh;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+html {
+  position: relative;
+  min-height: 100%;
+}
+.container-fluid{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.container-fluid-upper{
+  width: 60%;
+}
+.container-fluid-lower{
+  width: 40%;
+  padding-left: 110px;
+}
+.navbar-nav{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+body {
+  height: 100vh;
+  width: 100%;
+}
+nav{
+  padding: 0 50px 0 50px;
+}
+
+
+/*-------------------------------- CREATE USER-TYPE --------------------------------*/
+.userType-div{
+  height: 50vh;
+  width: 90vw;
+  padding: 10%;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #D4D5D6;
+}
+.userType-div-title{
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+}
+.userType-div-form{
+  padding: 10px;
+  width: 100%;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+}
+.UDF-upper{
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+}
+.UDF-upper > input{
+  height: 30px;
+  border-radius: 5px;
+  outline: #258cfb;
+  border: 1px solid #258cfb;
+  width: 100%;
+}
+.UDF-upper > label{
+  width: 100%;
+}
+
+.UDF-lower{
+  width: 40%;
+}
+.UDF-lower > input{
+  width: 100%;
+}
+.UDF-lower > button{
+  width: 100%;
+}
+
+
+/*-------------------------------- USER-TYPE CONTAINER --------------------------------*/
+.user-type-container{
+  height: 80vh;
+  width: 80vw;
+}
+
+.update-data-form-container{
+  height: 100%;
+  width: 90vw;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  z-index: 10;
+}
+
+.update-data-form-left, 
+.add-client-form-left{
+  height: 70vh;
+  width: 100%;
+}
+.update-data-form-right,
+.add-client-form-right{
+  height: 70vh;
+  width: 100%;
+}
+.updateBtn,
+.addBtn{
+  margin-top: 24px;
+  width: 100%;
+}
+.updateBtn input,
+.addBtn input{
+  width: 100%;
+}
+
+/*-------------------------------- CLIENT-INFO CONTAINER --------------------------------*/
+.clientInfo-in{
+  height: 80vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.table-container{
+  margin-top: 20px;
+  width: 100%;
+  max-height:70vh;
+  overflow: auto;
+  background: #ffffff;
+  box-shadow:  -13px 13px 26px #e8e8e8,
+             13px -13px 26px #ffffff;
+}
+
+.Btn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  margin: 3px;
+}
+
+.form-group{
+  margin-bottom: 10px;
+}
+.addBtn, .updateBtn{
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+table{
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #d1d1d1;
+  color: #ffffff;
+}
+table thead{
+  background-color: #fa5643;
+  color: #ffffff;
+  text-align: center;
+}
+thead th{
+  top: 0;
+  position: sticky;
+  background-color: #C0392B;
+}
+table tr td{
+  border: 1px solid #C0392B;
+  text-align: center;
+}
+tr td{
+  text-align: center;
+  vertical-align: middle;
+}
+.sticky-header{
+  background-color: #C0392B;
+}

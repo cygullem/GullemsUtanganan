@@ -1,0 +1,115 @@
+@model GULLEM_NEW_MVC.Entities.ClientInfo
+@using GULLEM_NEW_MVC.Entities
+
+
+<h2>UPDATE DATA</h2>
+
+<form class="update-data-form-container" asp-action="updateClient" method="post">
+    <div class="update-data-form-left">
+        <input type="hidden" asp-for="Id">
+
+        @if (ViewData["UserTypes"] != null)
+        {
+            <div class="form-group">
+                <label asp-for="UerType">User Type</label>
+                <select asp-for="UerType" class="form-control">
+                    @foreach (var userType in (List<UserType>)ViewData["UserTypes"])
+                    {
+                        <option value="@userType.Id">@userType.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="UerType" class="text-danger"></span>
+            </div>
+        }
+
+        <div class="form-group">
+            <label asp-for="FirstName">First Name</label>
+            <input asp-for="FirstName" class="form-control" />
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="MiddleName">Middle Name</label>
+            <input asp-for="MiddleName" class="form-control">
+            <span asp-validation-for="MiddleName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="LastName">Last Name</label>
+            <input asp-for="LastName" class="form-control">
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Address">Address</label>
+            <input asp-for="Address" class="form-control">
+            <span asp-validation-for="Address" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="ZipCode">Zip Code</label>
+            <input asp-for="ZipCode" class="form-control">
+            <span asp-validation-for="ZipCode" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Birthday">Birthday</label>
+            <input type="date" asp-for="Birthday" id="Birthday" class="form-control">
+            <span asp-validation-for="Birthday" class="text-danger"></span>
+        </div>
+        <div class="form-group updateBtn">
+            <input type="submit" class="btn btn-primary" value="SUBMIT">
+        </div>
+    </div>
+
+    <div class="update-data-form-right">
+        <div class="form-group">
+            <label asp-for="Age">Age</label>
+            <input asp-for="Age" id="Age" class="form-control" readonly>
+            <span asp-validation-for="Age" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="NameOfFather">Father's Name</label>
+            <input asp-for="NameOfFather" class="form-control">
+            <span asp-validation-for="NameOfFather" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="NameOfMother">Mother's Name</label>
+            <input asp-for="NameOfMother" class="form-control">
+            <span asp-validation-for="NameOfMother" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="CivilStatus">Civil Status</label>
+            <select asp-for="CivilStatus" class="form-control" name="CivilStatus">
+                <option value="">Select Status</option>
+                <option value="Single">Single</option>
+                <option value="Married">Married</option>
+                <option value="Divorced">Divorced/Separated</option>
+                <option value="Widowed">Widow(er)</option>
+            </select>
+            <span asp-validation-for="CivilStatus" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Religion">Religion</label>
+            <input asp-for="Religion" class="form-control">
+            <span asp-validation-for="Religion" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Occupation">Occupation</label>
+            <input asp-for="Occupation" class="form-control">
+            <span asp-validation-for="Occupation" class="text-danger"></span>
+        </div>
+    </div>
+</form>
+<script>
+    function calculateAge() {
+        var today = new Date();
+        var birthDate = new Date(document.getElementById("Birthday").value);
+        var age = today.getFullYear() - birthDate.getFullYear();
+
+        if (today.getMonth() < birthDate.getMonth() ||
+            (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+
+        document.getElementById("Age").value = age;
+    }
+
+    document.getElementById("Birthday").addEventListener("change", calculateAge);
+
+</script>
