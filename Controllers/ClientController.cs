@@ -13,6 +13,14 @@ namespace GULLEM_NEW_MVC.Controllers
       _context = context;
     }
 
+    public IActionResult loan()
+    {
+      return View();
+    }
+    public IActionResult AddLoan()
+    {
+      return View();
+    }
 
     public IActionResult Index()
     {

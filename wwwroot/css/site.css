@@ -220,3 +220,12 @@ tr td{
 .sticky-header{
   background-color: #C0392B;
 }
+
+
+/*-------------------------------- LOAN CONTAINER --------------------------------*/
+.Loan_container{
+  height: 100%;
+  width: 100%;
+  padding: 20px;
+  border: 1px solid red;
+}
