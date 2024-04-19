@@ -1,11 +1,11 @@
 @model GULLEM_NEW_MVC.Entities.ClientInfo
 
 <div class="Loan_container">
-    <h1>Loan Activities for @Model.FirstName @Model.LastName</h1>
+    <h1>@Model.FirstName @Model.LastName's Loan</h1>
 
     <div>
         <!-- Add Loan Button -->
-        <a class="btn btn-success" href="AddLoan/@Model.Id">Add Loan</a>
+        <a class="btn btn-success" href="/client/AddLoan/@Model.Id">Add Loan</a>
     </div>
 
     <!-- Display loan details here -->

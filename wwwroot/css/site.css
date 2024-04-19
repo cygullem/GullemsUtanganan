@@ -228,3 +228,9 @@ tr td{
   height: 90vh;
   width: 95vw;
 }
+
+/*-------------------------------- LOAN-INFORMATION CONTAINER --------------------------------*/
+.Loan_Information{
+  height: 80vh;
+  width: 95vw;
+}
