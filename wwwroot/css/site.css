@@ -224,8 +224,7 @@ tr td{
 
 /*-------------------------------- LOAN CONTAINER --------------------------------*/
 .Loan_container{
-  height: 100%;
-  width: 100%;
-  padding: 20px;
-  border: 1px solid red;
+  margin-top: 100px;
+  height: 90vh;
+  width: 95vw;
 }

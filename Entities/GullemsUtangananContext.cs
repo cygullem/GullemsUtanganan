@@ -17,10 +17,12 @@ public partial class GullemsUtangananContext : DbContext
 
     public virtual DbSet<ClientInfo> ClientInfos { get; set; }
 
+    public virtual DbSet<Loan> Loans { get; set; }
+
     public virtual DbSet<UserType> UserTypes { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-// #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=GullemsUtanganan;TrustServerCertificate=true;Trusted_Connection=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -59,6 +61,25 @@ public partial class GullemsUtangananContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.Religion)
                 .HasMaxLength(255)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<Loan>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Loan__3214EC07BBECB326");
+
+            entity.ToTable("Loan");
+
+            entity.Property(e => e.DateCreated)
+                .IsRowVersion()
+                .IsConcurrencyToken()
+                .HasColumnName("dateCreated");
+            entity.Property(e => e.DueDate).HasColumnType("date");
+            entity.Property(e => e.Payment)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
                 .IsUnicode(false);
         });
 

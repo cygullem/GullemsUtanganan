@@ -17,6 +17,10 @@ namespace GULLEM_NEW_MVC.Controllers
     {
       return View();
     }
+    public IActionResult AddLoan(int id)
+    {
+      return View();
+    }
 
     public IActionResult Index()
     {
