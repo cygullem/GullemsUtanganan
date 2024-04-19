@@ -13,11 +13,30 @@ namespace GULLEM_NEW_MVC.Controllers
             _context = context;
         }
 
-        public IActionResult Loan()
-        {
-            var clients = _context.ClientInfos.ToList();
-            return View(clients);
-        }
+		public IActionResult Loan(int id)
+		{
+			var client = _context.ClientInfos.FirstOrDefault(c => c.Id == id);
+			if (client == null)
+			{
+				return NotFound();
+			}
+
+			return View(client);
+		}
+
+
+
+		public IActionResult AddLoan(int id)
+		{
+			var client = _context.ClientInfos.FirstOrDefault(c => c.Id == id);
+			if (client == null)
+			{
+				return NotFound();
+			}
+
+			return View(client);
+		}
+
 
 
         public IActionResult Index()

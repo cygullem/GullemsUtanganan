@@ -1,13 +1,12 @@
-@model List<GULLEM_NEW_MVC.Entities.ClientInfo>
+@model GULLEM_NEW_MVC.Entities.ClientInfo
 
 <div class="Loan_container">
-    <h1>Lists of Loan</h1>
+    <h1>Loan Activities for @Model.FirstName @Model.LastName</h1>
 
-    @foreach (var client in Model)
-    {
-        <div>
-            <h2>@client.FirstName @client.LastName</h2>
-            <a class="btn btn-success" href="AddLoan/@client.Id">Add Loan</a>
-        </div>
-    }
+    <div>
+        <!-- Add Loan Button -->
+        <a class="btn btn-success" href="AddLoan/@Model.Id">Add Loan</a>
+    </div>
+
+    <!-- Display loan details here -->
 </div>
