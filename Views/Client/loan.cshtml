@@ -1,8 +1,13 @@
-@using GULLEM_NEW_MVC.Entities
 @model List<GULLEM_NEW_MVC.Entities.ClientInfo>
 
 <div class="Loan_container">
     <h1>Lists of Loan</h1>
 
-    <a class="btn btn-success" href="client/AddLoan/client.Id">Add Loan</a>
+    @foreach (var client in Model)
+    {
+        <div>
+            <h2>@client.FirstName @client.LastName</h2>
+            <a class="btn btn-success" href="AddLoan/@client.Id">Add Loan</a>
+        </div>
+    }
 </div>
