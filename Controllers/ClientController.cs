@@ -24,6 +24,10 @@ namespace GULLEM_NEW_MVC.Controllers
 			return View(client);
 		}
 
+		public IActionResult BackToLoan(int id)
+		{
+			return RedirectToAction("Loan", new { id = id });
+		}
 
 
 		public IActionResult AddLoan(int id)
