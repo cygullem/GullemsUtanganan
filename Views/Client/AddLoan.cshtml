@@ -1,5 +1,70 @@
+@model GULLEM_NEW_MVC.Entities.Loan
+
 <div class="Loan_Information">
     <h1>LOAN DETAILS</h1>
     <a class="btn btn-success" href="@Url.Action("Loan", "Client", new { id = Model.Id })">Go Back</a>
 
+    <form asp-action="AddLoan" method="post">
+        <input type="hidden" asp-for="Borrower">
+
+        <div class="form-group">
+            <label asp-for="Amount" class="control-label"></label>
+            <input asp-for="Amount" class="form-control"/>
+            <span asp-validation-for="Amount" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Term" class="control-label"></label>
+            <input asp-for="Term" class="form-control"/>
+            <span asp-validation-for="Term" class="text-danger"></span>
+        </div>
+
+         <div class="form-group">
+            <label asp-for="Payment" class="control-label"></label>
+            <select asp-for="Payment" class="form-control">
+                <option value="">Choose Payment Duration</option>
+                <option value="Daily">Daily</option>
+                <option value="Weekly">Weekly</option>
+                <option value="Bi-Monthly">Bi-Monthly</option>
+                <option value="Monthly">Monthly</option>
+                <option value="Yearly">Yearly</option>
+            </select>
+            <span asp-validation-for="Payment" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Interest" class="control-label"></label>
+            <input asp-for="Interest" class="form-control"/>
+            <span asp-validation-for="Interest" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Deduction" class="control-label"></label>
+            <input asp-for="Deduction" class="form-control"/>
+            <span asp-validation-for="Deduction" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="">Payment per term</label>
+            <input asp-for="AmountPaid" class="form-control" readonly/>
+            <span asp-validation-for="AmountPaid" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Total" class="control-label"></label>
+            <input asp-for="Total" class="form-control" readonly/>
+            <span asp-validation-for="Total" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="DueDate" class="control-label"></label>
+            <input type="date" asp-for="DueDate" class="form-control" readonly/>
+            <span asp-validation-for="DueDate" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <input type="hidden" asp-for="ReceivableAmount" class="form-control" readonly/>
+            <span asp-validation-for="DueDate" class="text-danger"></span>
+        </div>
+    </form>
 </div>

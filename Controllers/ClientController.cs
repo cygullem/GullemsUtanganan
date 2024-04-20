@@ -1,6 +1,7 @@
-using System.Linq;
-using GULLEM_NEW_MVC.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using GULLEM_NEW_MVC.Entities;
+using GULLEM_NEW_MVC.ViewModels;
 
 namespace GULLEM_NEW_MVC.Controllers
 {
@@ -13,113 +14,236 @@ namespace GULLEM_NEW_MVC.Controllers
             _context = context;
         }
 
-		public IActionResult Loan(int id)
-		{
-			var client = _context.ClientInfos.FirstOrDefault(c => c.Id == id);
-			if (client == null)
-			{
-				return NotFound();
-			}
-
-			return View(client);
-		}
-
-		public IActionResult BackToLoan(int id)
-		{
-			return RedirectToAction("Loan", new { id = id });
-		}
-
-
-		public IActionResult AddLoan(int id)
-		{
-			var client = _context.ClientInfos.FirstOrDefault(c => c.Id == id);
-			if (client == null)
-			{
-				return NotFound();
-			}
-
-			return View(client);
-		}
-
-
-
-        public IActionResult Index()
+        // GET: Client
+        public async Task<IActionResult> Index()
         {
-            var clients = _context.ClientInfos.ToList();
-            ViewData["types"] = _context.UserTypes.ToList();
-            return View(clients);
+            var clientInfos = (
+                from clientInfo in _context.ClientInfos
+                join usertype in _context.UserTypes
+                on clientInfo.UerType equals usertype.Id
+                select new ClientInfoViewModel
+                {
+                    Id = clientInfo.Id,
+                    UerType = clientInfo.UerType,
+                    UserTypeName = usertype.Name,
+                    FirstName = clientInfo.FirstName,
+                    MiddleName = clientInfo.MiddleName,
+                    LastName = clientInfo.LastName,
+                    Address = clientInfo.Address,
+                    ZipCode = clientInfo.ZipCode,
+                    Birthday = clientInfo.Birthday,
+                    Age = clientInfo.Age,
+                    NameOfFather = clientInfo.NameOfFather,
+                    NameOfMother = clientInfo.NameOfMother,
+                    CivilStatus = clientInfo.CivilStatus,
+                    Religion = clientInfo.Religion,
+                    Occupation = clientInfo.Occupation,
+                }
+            ).ToList();
+
+            return View(clientInfos);
         }
 
-
-        // ADD CLIENT
-        [HttpGet]
-        public IActionResult AddClient()
+        // GET: Client/Details/5
+        public async Task<IActionResult> Loan(int? id)
         {
-            var userTypes = _context.UserTypes.ToList();
-            ViewData["UserTypes"] = userTypes;
-            return View(new List<ClientInfo>()); //
-        }
-
-        [HttpPost]
-        public IActionResult AddClient(ClientInfo client)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.ClientInfos.Add(client);
-                _context.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            var userTypes = _context.UserTypes.ToList();
-            ViewData["UserTypes"] = userTypes;
-            return View(new List<ClientInfo>()); //
-        }
-
-
-        // UPDATE CLIENT
-        [HttpGet]
-        public IActionResult UpdateClient(int id)
-        {
-            var client = _context.ClientInfos.FirstOrDefault(q => q.Id == id);
-            if (client == null)
+            if (id == null || _context.ClientInfos == null)
             {
                 return NotFound();
             }
 
-            var userTypes = _context.UserTypes.ToList();
-            ViewData["UserTypes"] = userTypes;
-            return View(client);
-        }
-
-        [HttpPost]
-        public IActionResult UpdateClient(ClientInfo client)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.ClientInfos.Update(client);
-                _context.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            var userTypes = _context.UserTypes.ToList();
-            ViewData["UserTypes"] = userTypes;
-
-            return View(client);
-        }
-
-        // DELETE CLIENT
-        [HttpGet]
-        public IActionResult Delete(int id)
-        {
-            var client = _context.ClientInfos.FirstOrDefault(q => q.Id == id);
-            if (client == null)
+            var clientInfo = await _context.ClientInfos
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (clientInfo == null)
             {
                 return NotFound();
             }
 
-            _context.ClientInfos.Remove(client);
-            _context.SaveChanges();
+            return View(clientInfo);
+        }
 
-            return RedirectToAction("Index");
+        // GET: Client/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(ClientInfoViewModel clientInfo)
+        {
+            if (ModelState.IsValid)
+            {
+                ClientInfo c = new ClientInfo
+                {
+                    Id = clientInfo.Id,
+                    UerType = clientInfo.UerType,
+                    FirstName = clientInfo.FirstName,
+                    MiddleName = clientInfo.MiddleName,
+                    LastName = clientInfo.LastName,
+                    Address = clientInfo.Address,
+                    ZipCode = clientInfo.ZipCode,
+                    Birthday = clientInfo.Birthday,
+                    Age = clientInfo.Age,
+                    NameOfFather = clientInfo.NameOfFather,
+                    NameOfMother = clientInfo.NameOfMother,
+                    CivilStatus = clientInfo.CivilStatus,
+                    Religion = clientInfo.Religion,
+                    Occupation = clientInfo.Occupation,
+                };
+                _context.ClientInfos.Add(c);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(clientInfo);
+        }
+
+        // GET: Client/Edit/5
+        public async Task<IActionResult> UpdateClient(int? id)
+        {
+            if (id == null || _context.ClientInfos == null)
+            {
+                return NotFound();
+            }
+
+            var clientInfoViewModel = await _context.ClientInfos
+                .Where(q => q.Id == id)
+                .Select(q => new ClientInfoViewModel
+                {
+                    Id = q.Id,
+                    UerType = q.UerType,
+                    FirstName = q.FirstName,
+                    MiddleName = q.MiddleName,
+                    LastName = q.LastName,
+                    Address = q.Address,
+                    ZipCode = q.ZipCode,
+                    Birthday = q.Birthday,
+                    Age = q.Age,
+                    NameOfFather = q.NameOfFather,
+                    NameOfMother = q.NameOfMother,
+                    CivilStatus = q.CivilStatus,
+                    Religion = q.Religion,
+                    Occupation = q.Occupation,
+                })
+                .FirstOrDefaultAsync();
+
+            if (clientInfoViewModel == null)
+            {
+                return NotFound();
+            }
+
+            // Convert ClientInfoViewModel to ClientInfo
+            var clientInfo = new ClientInfo
+            {
+                Id = clientInfoViewModel.Id,
+                UerType = clientInfoViewModel.UerType,
+                FirstName = clientInfoViewModel.FirstName,
+                MiddleName = clientInfoViewModel.MiddleName,
+                LastName = clientInfoViewModel.LastName,
+                Address = clientInfoViewModel.Address,
+                ZipCode = clientInfoViewModel.ZipCode,
+                Birthday = clientInfoViewModel.Birthday,
+                Age = clientInfoViewModel.Age,
+                NameOfFather = clientInfoViewModel.NameOfFather,
+                NameOfMother = clientInfoViewModel.NameOfMother,
+                CivilStatus = clientInfoViewModel.CivilStatus,
+                Religion = clientInfoViewModel.Religion,
+                Occupation = clientInfoViewModel.Occupation,
+            };
+
+            return View(clientInfo);
+        }
+
+
+        // POST: Client/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateClient(int id, ClientInfoViewModel clientInfo)
+        {
+            if (id != clientInfo.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var client = await _context.ClientInfos.FirstOrDefaultAsync(x => x.Id == id);
+                    client.UerType = clientInfo.UerType;
+                    client.FirstName = clientInfo.FirstName;
+                    client.MiddleName = clientInfo.MiddleName;
+                    client.LastName = clientInfo.LastName;
+                    client.Address = clientInfo.Address;
+                    client.ZipCode = clientInfo.ZipCode;
+                    client.Birthday = clientInfo.Birthday;
+                    client.Age = clientInfo.Age;
+                    client.NameOfFather = clientInfo.NameOfFather;
+                    client.NameOfMother = clientInfo.NameOfMother;
+                    client.CivilStatus = clientInfo.CivilStatus;
+                    client.Religion = clientInfo.Religion;
+                    client.Occupation = clientInfo.Occupation;
+
+                    _context.Update(client);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ClientInfoExists(clientInfo.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(clientInfo);
+        }
+
+        // GET: Client/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || _context.ClientInfos == null)
+            {
+                return NotFound();
+            }
+
+            var clientInfo = await _context.ClientInfos
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (clientInfo == null)
+            {
+                return NotFound();
+            }
+
+            return View(clientInfo);
+        }
+
+        // POST: Client/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if (_context.ClientInfos == null)
+            {
+                return Problem("Entity set 'GullemsUtangananContext.ClientInfos'  is null.");
+            }
+            var clientInfo = await _context.ClientInfos.FindAsync(id);
+            if (clientInfo != null)
+            {
+                _context.ClientInfos.Remove(clientInfo);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool ClientInfoExists(int id)
+        {
+            return (_context.ClientInfos?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
