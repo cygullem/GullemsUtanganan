@@ -1,0 +1,21 @@
+<div class="parent">
+    <h1 class="sample">HELLO GUYS</h1>
+</div>
+
+
+<script>
+    const parent = document.querySelector(".parent");
+    const newElement = document.createElement("button");
+    const  textNode = document.createTextNode("please help me");
+
+    newElement.textContent = "I'm under the water";
+    newElement.style.border = "none";
+    newElement.style.backgroundColor = "transparent";
+
+    parent.appendChild(newElement);
+    parent.prepend(textNode);
+
+    newElement.addEventListener('click', function() {
+        alert('BRENT IS A GIRL!');
+    })
+</script>

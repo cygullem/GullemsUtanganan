@@ -65,9 +65,17 @@ namespace GULLEM_NEW_MVC.Controllers
         // GET: Client/Create
         public IActionResult Create()
         {
+           // Assuming UserTypes is a DbSet in your context
+            var userTypes = _context.UserTypes.ToList();
+            ViewData["UserTypes"] = userTypes;
+
             return View();
         }
 
+        public IActionResult AddClient()
+        {
+            return View();
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
