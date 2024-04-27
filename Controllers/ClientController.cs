@@ -67,23 +67,32 @@ namespace GULLEM_NEW_MVC.Controllers
         // GET: Client/Create
         public IActionResult Create()
         {
-            // Assuming UserTypes is a DbSet in your context
             var userTypes = _context.UserTypes.ToList();
             ViewData["UserTypes"] = userTypes;
 
             return View();
         }
 
-        public IActionResult AddClient()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddClient(ClientInfoViewModel model)
         {
-            // Retrieve UserTypes from the database
-            var userTypes = _context.UserTypes.ToList();
+            if (ModelState.IsValid)
+            {
+                var clientInfo = new ClientInfo
+                {
+                    // Map properties accordingly
+                };
 
-            // Pass UserTypes to the view
-            ViewData["UserTypes"] = userTypes;
+                _context.ClientInfos.Add(clientInfo);
+                await _context.SaveChangesAsync();
 
-            return View();
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(model);
         }
+
 
         // GET: Client/AddLoan/5
         public IActionResult AddLoan(int? id)
@@ -93,11 +102,6 @@ namespace GULLEM_NEW_MVC.Controllers
                 return NotFound();
             }
 
-            // Here you might want to fetch any necessary data related to the client's loan
-            // For example, you might want to retrieve a list of existing loans for this client
-
-            // Pass any necessary data to the AddLoan view
-            // For example:
             ViewData["ClientId"] = id;
 
             return View();
@@ -141,10 +145,8 @@ namespace GULLEM_NEW_MVC.Controllers
                 return NotFound();
             }
 
-            // Fetch the list of UserTypes from your database
             var userTypes = await _context.UserTypes.ToListAsync();
 
-            // Set the UserTypes list in ViewData
             ViewData["UserTypes"] = userTypes;
 
             var clientInfoViewModel = await _context.ClientInfos
