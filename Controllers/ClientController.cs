@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GULLEM_NEW_MVC.Entities;
 using GULLEM_NEW_MVC.ViewModels;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace GULLEM_NEW_MVC.Controllers
 {
@@ -17,7 +19,7 @@ namespace GULLEM_NEW_MVC.Controllers
         // GET: Client
         public async Task<IActionResult> Index()
         {
-            var clientInfos = (
+            var clientInfos = await (
                 from clientInfo in _context.ClientInfos
                 join usertype in _context.UserTypes
                 on clientInfo.UerType equals usertype.Id
@@ -39,7 +41,7 @@ namespace GULLEM_NEW_MVC.Controllers
                     Religion = clientInfo.Religion,
                     Occupation = clientInfo.Occupation,
                 }
-            ).ToList();
+            ).ToListAsync();
 
             return View(clientInfos);
         }
@@ -65,7 +67,7 @@ namespace GULLEM_NEW_MVC.Controllers
         // GET: Client/Create
         public IActionResult Create()
         {
-           // Assuming UserTypes is a DbSet in your context
+            // Assuming UserTypes is a DbSet in your context
             var userTypes = _context.UserTypes.ToList();
             ViewData["UserTypes"] = userTypes;
 
@@ -74,6 +76,30 @@ namespace GULLEM_NEW_MVC.Controllers
 
         public IActionResult AddClient()
         {
+            // Retrieve UserTypes from the database
+            var userTypes = _context.UserTypes.ToList();
+
+            // Pass UserTypes to the view
+            ViewData["UserTypes"] = userTypes;
+
+            return View();
+        }
+
+        // GET: Client/AddLoan/5
+        public IActionResult AddLoan(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // Here you might want to fetch any necessary data related to the client's loan
+            // For example, you might want to retrieve a list of existing loans for this client
+
+            // Pass any necessary data to the AddLoan view
+            // For example:
+            ViewData["ClientId"] = id;
+
             return View();
         }
 
@@ -115,6 +141,12 @@ namespace GULLEM_NEW_MVC.Controllers
                 return NotFound();
             }
 
+            // Fetch the list of UserTypes from your database
+            var userTypes = await _context.UserTypes.ToListAsync();
+
+            // Set the UserTypes list in ViewData
+            ViewData["UserTypes"] = userTypes;
+
             var clientInfoViewModel = await _context.ClientInfos
                 .Where(q => q.Id == id)
                 .Select(q => new ClientInfoViewModel
@@ -141,28 +173,8 @@ namespace GULLEM_NEW_MVC.Controllers
                 return NotFound();
             }
 
-            // Convert ClientInfoViewModel to ClientInfo
-            var clientInfo = new ClientInfo
-            {
-                Id = clientInfoViewModel.Id,
-                UerType = clientInfoViewModel.UerType,
-                FirstName = clientInfoViewModel.FirstName,
-                MiddleName = clientInfoViewModel.MiddleName,
-                LastName = clientInfoViewModel.LastName,
-                Address = clientInfoViewModel.Address,
-                ZipCode = clientInfoViewModel.ZipCode,
-                Birthday = clientInfoViewModel.Birthday,
-                Age = clientInfoViewModel.Age,
-                NameOfFather = clientInfoViewModel.NameOfFather,
-                NameOfMother = clientInfoViewModel.NameOfMother,
-                CivilStatus = clientInfoViewModel.CivilStatus,
-                Religion = clientInfoViewModel.Religion,
-                Occupation = clientInfoViewModel.Occupation,
-            };
-
-            return View(clientInfo);
+            return View(clientInfoViewModel);
         }
-
 
         // POST: Client/Edit/5
         [HttpPost]

@@ -6,10 +6,9 @@
     <div>
         <!-- Add Loan Button -->
         <a class="btn btn-primary" href="@Url.Action("Index", "Client")">Mainpage</a>
-        <a class="btn btn-success" href="/client/AddLoan/@Model.Id">Add Loan</a>
+        <a class="btn btn-success" href="@Url.Action("AddLoan", "Client", new { id = Model.Id })">Add Loan</a>
     </div>
 
-    <!-- Display loan details here -->
     <div class="loan-details">
         
     </div>
