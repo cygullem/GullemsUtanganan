@@ -2,6 +2,7 @@
 
 <div class="Loan_Information">
     <h1>LOAN DETAILS</h1>
+    <a class="btn btn-primary" href="@Url.Action("Index", "Client")">Mainpage</a>
     @if (Model != null)
     {
         <a class="btn btn-success" href="@Url.Action("Loan", "Client", new { id = Model.Id })">Go Back</a>

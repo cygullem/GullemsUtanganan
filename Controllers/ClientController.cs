@@ -72,25 +72,24 @@ namespace GULLEM_NEW_MVC.Controllers
 
             return View();
         }
+        
+        public IActionResult AddClient()
+        {
+            ViewBag.UserTypes = _context.UserTypes.ToList();
+            return View();
+        }
+
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddClient(ClientInfoViewModel model)
+        public async Task<IActionResult> AddClient(ClientInfo clientInfo)
         {
             if (ModelState.IsValid)
             {
-                var clientInfo = new ClientInfo
-                {
-                    // Map properties accordingly
-                };
-
-                _context.ClientInfos.Add(clientInfo);
+                _context.Add(clientInfo);
                 await _context.SaveChangesAsync();
-
                 return RedirectToAction(nameof(Index));
             }
-
-            return View(model);
+            return View(clientInfo);
         }
 
 
