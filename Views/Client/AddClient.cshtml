@@ -13,7 +13,7 @@
                 <div class="add-client-form-left">
                     <div class="form-group">
                         <label>User Type</label>
-                        <select class="form-control" name="UserTypeId" id="UserTypeId">
+                        <select class="form-control" name="UerType">
                             @if (ViewData["UserTypes"] != null)
                             {
                                 foreach (var userType in ViewData["UserTypes"] as List<UserType>)
@@ -26,7 +26,6 @@
                                 <option value="">No User Types available</option>
                             }
                         </select>
-
                     </div>
                     <div class="form-group">
                         <label>First Name</label>
