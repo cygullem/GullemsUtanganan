@@ -6,107 +6,109 @@
 
 <div class="clientInfo-in">
     <h2 id="adminGreetings"></h2>
-    
+
     <p>
-        <a class="btn btn-success" href="/client/addclient">Create User</a>
+        <a class="btn btn-success" href="/client/addclient">Add Client</a>
     </p>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.UerType)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.MiddleName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LastName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Address)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ZipCode)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Birthday)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Age)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.NameOfFather)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.NameOfMother)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CivilStatus)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Religion)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Occupation)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+    <div class="table-container">
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UserTypeName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FirstName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MiddleName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LastName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Address)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ZipCode)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Birthday)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Age)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.NameOfFather)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.NameOfMother)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CivilStatus)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Religion)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Occupation)
-                    </td>
-                    <td>
-                        <a class="btn btn-warning Btn" asp-action="UpdateClient" asp-route-id="@item.Id">Update</a>
-                        <a class="btn btn-danger Btn" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                        <a class="btn btn-success Btn" asp-action="Loan" asp-route-id="@item.Id">Activities</a>
-                    </td>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UerType)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MiddleName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LastName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Address)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ZipCode)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Birthday)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Age)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NameOfFather)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NameOfMother)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CivilStatus)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Religion)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Occupation)
+                    </th>
+                    <th></th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserTypeName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MiddleName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Address)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ZipCode)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Birthday)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Age)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NameOfFather)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NameOfMother)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CivilStatus)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Religion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Occupation)
+                        </td>
+                        <td>
+                            <a class="btn btn-warning Btn" asp-action="UpdateClient" asp-route-id="@item.Id">Update</a>
+                            <a class="btn btn-danger Btn" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            <a class="btn btn-success Btn" asp-action="Loan" asp-route-id="@item.Id">Activities</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <script>
