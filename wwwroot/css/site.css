@@ -170,21 +170,23 @@ nav{
 .table-container{
   margin-top: 10px;
   width: 100%;
-  max-height: 85vh;
+  max-height: 80vh;
   overflow: auto;
   background: #ffffff;
   box-shadow:  -13px 13px 26px #e8e8e8,
              13px -13px 26px #ffffff;
 }
-.create-table-container{
-  margin-top: 10px;
+
+.table-container-create{
+  margin-top: 20px;
   width: 100%;
-  max-height: 70vh;
+  max-height: 60vh;
   overflow: auto;
   background: #ffffff;
   box-shadow:  -13px 13px 26px #e8e8e8,
              13px -13px 26px #ffffff;
 }
+
 .Btn{
   display: flex;
   align-items: center;
