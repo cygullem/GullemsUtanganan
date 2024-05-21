@@ -4,7 +4,6 @@
     <h1>@Model.FirstName's Loan</h1>
 
     <div>
-        <!-- Add Loan Button -->
         <a class="btn btn-primary" href="@Url.Action("Index", "Client")">Mainpage</a>
         <a class="btn btn-success" href="@Url.Action("AddLoan", "Client", new { id = Model.Id })">Add Loan</a>
     </div>
