@@ -16,6 +16,57 @@ namespace GULLEM_NEW_MVC.Controllers
             _context = context;
         }
 
+
+        // GET: Client/AddLoan
+        public IActionResult AddLoan()
+        {
+            return View();
+        }
+
+        // POST: Client/AddLoan
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddLoan(Loan loan)
+        {
+            if (ModelState.IsValid)
+            {
+                loan.DueDate = CalculateDueDate(loan);
+                _context.Loans.Add(loan);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("loan", "Client");
+            }
+
+            return View(loan);
+        }
+
+        private DateTime CalculateDueDate(Loan loan)
+        {
+            DateTime dueDate = DateTime.Now;
+            switch (loan.Payment)
+            {
+                case "Daily":
+                    dueDate = dueDate.AddDays(loan.Term);
+                    break;
+                case "Weekly":
+                    dueDate = dueDate.AddDays(loan.Term * 7);
+                    break;
+                case "Bi-Monthly":
+                    dueDate = dueDate.AddMonths(loan.Term * 2);
+                    break;
+                case "Monthly":
+                    dueDate = dueDate.AddMonths(loan.Term);
+                    break;
+                case "Yearly":
+                    dueDate = dueDate.AddYears(loan.Term / 12);
+                    break;
+                default:
+                    break;
+            }
+            return dueDate;
+        }
+
+
         // GET: Client
         public async Task<IActionResult> Index()
         {
@@ -92,19 +143,6 @@ namespace GULLEM_NEW_MVC.Controllers
             return View(clientInfo);
         }
 
-
-        // GET: Client/AddLoan/5
-        public IActionResult AddLoan(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            ViewData["ClientId"] = id;
-
-            return View();
-        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
