@@ -1,5 +1,14 @@
 @model GULLEM_NEW_MVC.Entities.Loan
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Loan</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
 <div class="Loan_Information">
     <h1>LOAN DETAILS</h1>
     <a class="btn btn-primary" href="@Url.Action("Index", "Client")">Mainpage</a>
@@ -23,7 +32,7 @@
             <span asp-validation-for="Term" class="text-danger"></span>
         </div>
 
-         <div class="form-group">
+        <div class="form-group">
             <label asp-for="Payment" class="control-label"></label>
             <select asp-for="Payment" class="form-control">
                 <option value="">Choose Payment Duration</option>
@@ -61,14 +70,14 @@
         </div>
 
         <div class="form-group">
-            <label asp-for="DueDate" class="control-label"></label>
+            <label asp-for="DueDate" class="control-label">Payment Due Date</label>
             <input type="date" asp-for="DueDate" class="form-control" readonly/>
             <span asp-validation-for="DueDate" class="text-danger"></span>
         </div>
 
         <div class="form-group">
             <input type="hidden" asp-for="ReceivableAmount" class="form-control" readonly/>
-            <span asp-validation-for="DueDate" class="text-danger"></span>
+            <span asp-validation-for="ReceivableAmount" class="text-danger"></span>
         </div>
 
         <div class="form-group">
@@ -76,3 +85,63 @@
         </div>
     </form>
 </div>
+
+<script>
+    $(document).ready(function() {
+        function calculateLoanDetails() {
+            var amount = parseFloat($('input[name="Amount"]').val()) || 0;
+            var term = parseInt($('input[name="Term"]').val()) || 0;
+            var interest = parseFloat($('input[name="Interest"]').val()) || 0;
+            var deduction = parseFloat($('input[name="Deduction"]').val()) || 0;
+            var paymentFrequency = $('select[name="Payment"]').val();
+
+            var paymentTerms = term;
+            var dueDate = new Date();
+
+            switch (paymentFrequency) {
+                case 'Daily':
+                    dueDate.setDate(dueDate.getDate() + term);
+                    break;
+                case 'Weekly':
+                    dueDate.setDate(dueDate.getDate() + (term * 7));
+                    break;
+                case 'Bi-Monthly':
+                    dueDate.setMonth(dueDate.getMonth() + (term * 2));
+                    break;
+                case 'Monthly':
+                    dueDate.setMonth(dueDate.getMonth() + term);
+                    break;
+                case 'Yearly':
+                    dueDate.setFullYear(dueDate.getFullYear() + (term / 12));
+                    break;
+                default:
+                    dueDate = new Date();
+                    break;
+            }
+
+            var baseAmountPerTerm = amount / paymentTerms;
+            var interestAmountPerTerm = baseAmountPerTerm * (interest / 100);
+            var amountPaidPerTerm = baseAmountPerTerm + interestAmountPerTerm;
+
+            var totalInterest = interestAmountPerTerm * paymentTerms;
+            var totalAmount = (amount + totalInterest) - deduction;
+
+            $('input[name="AmountPaid"]').val(amountPaidPerTerm.toFixed(2));
+            $('input[name="Total"]').val(totalAmount.toFixed(2));
+
+            var dueDateString = dueDate.toISOString().split('T')[0];
+            $('input[name="DueDate"]').val(dueDateString);
+
+            $('input[name="ReceivableAmount"]').val(totalAmount.toFixed(2));
+        }
+
+        $('input[name="Amount"], input[name="Term"], input[name="Interest"], input[name="Deduction"], select[name="Payment"]').on('input change', function() {
+            calculateLoanDetails();
+        });
+
+        calculateLoanDetails();
+    });
+</script>
+
+</body>
+</html>
