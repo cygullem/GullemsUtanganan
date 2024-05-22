@@ -30,13 +30,23 @@ namespace GULLEM_NEW_MVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Inspect ModelState for errors
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
+                foreach (var error in errors)
+                {
+                    Console.WriteLine(error.ErrorMessage);
+                }
+
                 loan.DueDate = CalculateDueDate(loan);
+                loan.DateCreated = DateTime.Now; // Set the creation date
                 _context.Loans.Add(loan);
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction("loan", "Client");
+                // Redirect to a confirmation page or back to the loan list
+                return RedirectToAction("Index", "Client");
             }
 
+            // If we got this far, something failed, redisplay form
             return View(loan);
         }
 
@@ -64,6 +74,24 @@ namespace GULLEM_NEW_MVC.Controllers
                     break;
             }
             return dueDate;
+        }
+
+        // GET: Client/Details/5
+        public async Task<IActionResult> Loan(int id)
+        {
+            var client = await _context.ClientInfos
+                .Include(c => c.Loans)
+                .FirstOrDefaultAsync(c => c.Id == id);
+
+            if (client == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.ClientName = client.FirstName + " " + client.LastName; // Pass client name to view
+            ViewBag.ClientId = client.Id; // Pass client ID to view
+
+            return View(client.Loans.ToList());
         }
 
 
@@ -97,23 +125,6 @@ namespace GULLEM_NEW_MVC.Controllers
             return View(clientInfos);
         }
 
-        // GET: Client/Details/5
-        public async Task<IActionResult> Loan(int? id)
-        {
-            if (id == null || _context.ClientInfos == null)
-            {
-                return NotFound();
-            }
-
-            var clientInfo = await _context.ClientInfos
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (clientInfo == null)
-            {
-                return NotFound();
-            }
-
-            return View(clientInfo);
-        }
 
         // GET: Client/Create
         public IActionResult Create()
@@ -123,7 +134,7 @@ namespace GULLEM_NEW_MVC.Controllers
 
             return View();
         }
-        
+
         public IActionResult AddClient()
         {
             ViewBag.UserTypes = _context.UserTypes.ToList();

@@ -1,14 +1,54 @@
-@model GULLEM_NEW_MVC.Entities.ClientInfo
+@* @model GULLEM_NEW_MVC.Entities.ClientInfo *@
+
+@model List<GULLEM_NEW_MVC.Entities.Loan>
 
 <div class="Loan_container">
-    <h1>@Model.FirstName's Loan</h1>
+    <h1>@ViewBag.ClientName's Loans</h1>
 
     <div>
         <a class="btn btn-primary" href="@Url.Action("Index", "Client")">Mainpage</a>
-        <a class="btn btn-success" href="@Url.Action("AddLoan", "Client", new { id = Model.Id })">Add Loan</a>
+        <a class="btn btn-success" href="@Url.Action("AddLoan", "Client", new { id = ViewBag.ClientId })">Add Loan</a>
     </div>
 
     <div class="loan-details">
-        
+        @if (Model.Any())
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Amount</th>
+                        <th>Term</th>
+                        <th>Payment</th>
+                        <th>Amount Paid</th>
+                        <th>Interest</th>
+                        <th>Deduction</th>
+                        <th>Total</th>
+                        <th>Due Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var loan in Model)
+                    {
+                        <tr>
+                            <td>@loan.Amount</td>
+                            <td>@loan.Term</td>
+                            <td>@loan.Payment</td>
+                            <td>@loan.AmountPaid</td>
+                            <td>@loan.Interest</td>
+                            <td>@loan.Deduction</td>
+                            <td>@loan.Total</td>
+                            <td>@loan.DueDate.ToShortDateString()</td>
+                            <td>@loan.Status</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>No loans available.</p>
+        }
     </div>
 </div>
+

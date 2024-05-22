@@ -14,7 +14,7 @@
     <a class="btn btn-primary" href="@Url.Action("Index", "Client")">Mainpage</a>
     @if (Model != null)
     {
-        <a class="btn btn-success" href="@Url.Action("Loan", "Client", new { id = Model.Id })">Go Back</a>
+        <a class="btn btn-success" href="@Url.Action("Loan", "Client", new { id = Model.Id })">View Loans</a>
     }
 
     <form asp-action="AddLoan" method="post">

@@ -32,4 +32,6 @@ public partial class ClientInfo
     public string? Religion { get; set; }
 
     public string? Occupation { get; set; }
+
+    public List<Loan> Loans { get; set; } = new List<Loan>();
 }
