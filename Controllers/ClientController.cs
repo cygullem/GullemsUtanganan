@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GULLEM_NEW_MVC.Entities;
 using GULLEM_NEW_MVC.ViewModels;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,11 +17,11 @@ namespace GULLEM_NEW_MVC.Controllers
             _context = context;
         }
 
-
         // GET: Client/AddLoan
-        public IActionResult AddLoan()
+        public IActionResult AddLoan(int id)
         {
-            return View();
+            var loan = new Loan { Borrower = id };
+            return View(loan);
         }
 
         // POST: Client/AddLoan
@@ -38,7 +39,7 @@ namespace GULLEM_NEW_MVC.Controllers
                 }
 
                 loan.DueDate = CalculateDueDate(loan);
-                loan.DateCreated = DateTime.Now; // Set the creation date
+                loan.DateCreated = BitConverter.GetBytes(DateTime.Now.ToBinary()); // Set the creation date
                 _context.Loans.Add(loan);
                 await _context.SaveChangesAsync();
 
@@ -76,32 +77,12 @@ namespace GULLEM_NEW_MVC.Controllers
             return dueDate;
         }
 
-        // GET: Client/Details/5
-        public async Task<IActionResult> Loan(int id)
-        {
-            var client = await _context.ClientInfos
-                .Include(c => c.Loans)
-                .FirstOrDefaultAsync(c => c.Id == id);
-
-            if (client == null)
-            {
-                return NotFound();
-            }
-
-            ViewBag.ClientName = client.FirstName + " " + client.LastName; // Pass client name to view
-            ViewBag.ClientId = client.Id; // Pass client ID to view
-
-            return View(client.Loans.ToList());
-        }
-
-
         // GET: Client
         public async Task<IActionResult> Index()
         {
             var clientInfos = await (
                 from clientInfo in _context.ClientInfos
-                join usertype in _context.UserTypes
-                on clientInfo.UerType equals usertype.Id
+                join usertype in _context.UserTypes on clientInfo.UerType equals usertype.Id
                 select new ClientInfoViewModel
                 {
                     Id = clientInfo.Id,
@@ -125,6 +106,23 @@ namespace GULLEM_NEW_MVC.Controllers
             return View(clientInfos);
         }
 
+        // GET: Client/Details/5
+        public async Task<IActionResult> Loan(int? id)
+        {
+            if (id == null || _context.ClientInfos == null)
+            {
+                return NotFound();
+            }
+
+            var clientInfo = await _context.ClientInfos
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (clientInfo == null)
+            {
+                return NotFound();
+            }
+
+            return View(clientInfo);
+        }
 
         // GET: Client/Create
         public IActionResult Create()
@@ -141,7 +139,6 @@ namespace GULLEM_NEW_MVC.Controllers
             return View();
         }
 
-
         [HttpPost]
         public async Task<IActionResult> AddClient(ClientInfo clientInfo)
         {
@@ -153,7 +150,6 @@ namespace GULLEM_NEW_MVC.Controllers
             }
             return View(clientInfo);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -194,7 +190,6 @@ namespace GULLEM_NEW_MVC.Controllers
             }
 
             var userTypes = await _context.UserTypes.ToListAsync();
-
             ViewData["UserTypes"] = userTypes;
 
             var clientInfoViewModel = await _context.ClientInfos
