@@ -17,65 +17,6 @@ namespace GULLEM_NEW_MVC.Controllers
             _context = context;
         }
 
-        // GET: Client/AddLoan
-        public IActionResult AddLoan(int id)
-        {
-            var loan = new Loan { Borrower = id };
-            return View(loan);
-        }
-
-        // POST: Client/AddLoan
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddLoan(Loan loan)
-        {
-            if (ModelState.IsValid)
-            {
-                // Inspect ModelState for errors
-                var errors = ModelState.Values.SelectMany(v => v.Errors);
-                foreach (var error in errors)
-                {
-                    Console.WriteLine(error.ErrorMessage);
-                }
-
-                loan.DueDate = CalculateDueDate(loan);
-                loan.DateCreated = BitConverter.GetBytes(DateTime.Now.ToBinary()); // Set the creation date
-                _context.Loans.Add(loan);
-                await _context.SaveChangesAsync();
-
-                // Redirect to a confirmation page or back to the loan list
-                return RedirectToAction("Index", "Client");
-            }
-
-            // If we got this far, something failed, redisplay form
-            return View(loan);
-        }
-
-        private DateTime CalculateDueDate(Loan loan)
-        {
-            DateTime dueDate = DateTime.Now;
-            switch (loan.Payment)
-            {
-                case "Daily":
-                    dueDate = dueDate.AddDays(loan.Term);
-                    break;
-                case "Weekly":
-                    dueDate = dueDate.AddDays(loan.Term * 7);
-                    break;
-                case "Bi-Monthly":
-                    dueDate = dueDate.AddMonths(loan.Term * 2);
-                    break;
-                case "Monthly":
-                    dueDate = dueDate.AddMonths(loan.Term);
-                    break;
-                case "Yearly":
-                    dueDate = dueDate.AddYears(loan.Term / 12);
-                    break;
-                default:
-                    break;
-            }
-            return dueDate;
-        }
 
         // GET: Client
         public async Task<IActionResult> Index()
