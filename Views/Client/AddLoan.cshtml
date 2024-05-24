@@ -1,79 +1,93 @@
 @model GULLEM_NEW_MVC.Entities.Loan
 
-<div class="Loan_Information">
-    <h1>Add Loan for Client ID: @Model.Borrower</h1>
-    <a class="btn btn-primary" href="@Url.Action("Index", "Client")">Mainpage</a>
-    <a class="btn btn-success" href="@Url.Action("Loan", "Client", new { id = Model.Borrower })">Go Back</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Application</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
 
-    <form asp-action="AddLoan" asp-controller="Loan" method="post">
-        <input type="hidden" asp-for="Borrower">
+<div class="container-fluid">
+    <div class="Loan_Information">
+        <h1>Add Loan for Client ID: @Model.Borrower</h1>
+        <a class="btn btn-primary" href="@Url.Action("Index", "Client")">Mainpage</a>
+        <a class="btn btn-success" href="@Url.Action("Loan", "Client", new { id = Model.Borrower })">Go Back</a>
 
-        <div class="form-group">
-            <label asp-for="Amount" class="control-label"></label>
-            <input asp-for="Amount" class="form-control"/>
-            <span asp-validation-for="Amount" class="text-danger"></span>
-        </div>
+        <form asp-action="AddLoan" asp-controller="Loan" method="post">
+            <input type="hidden" asp-for="Borrower">
 
-        <div class="form-group">
-            <label asp-for="Term" class="control-label"></label>
-            <input asp-for="Term" class="form-control"/>
-            <span asp-validation-for="Term" class="text-danger"></span>
-        </div>
+            <div class="form-group">
+                <label asp-for="Amount" class="control-label"></label>
+                <input asp-for="Amount" class="form-control"/>
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
 
-        <div class="form-group">
-            <label asp-for="Payment" class="control-label"></label>
-            <select asp-for="Payment" class="form-control">
-                <option value="">Choose Payment Duration</option>
-                <option value="Daily">Daily</option>
-                <option value="Weekly">Weekly</option>
-                <option value="Bi-Monthly">Bi-Monthly</option>
-                <option value="Monthly">Monthly</option>
-                <option value="Yearly">Yearly</option>
-            </select>
-            <span asp-validation-for="Payment" class="text-danger"></span>
-        </div>
+            <div class="form-group">
+                <label asp-for="Term" class="control-label"></label>
+                <input asp-for="Term" class="form-control"/>
+                <span asp-validation-for="Term" class="text-danger"></span>
+            </div>
 
-        <div class="form-group">
-            <label asp-for="Interest" class="control-label"></label>
-            <input asp-for="Interest" class="form-control"/>
-            <span asp-validation-for="Interest" class="text-danger"></span>
-        </div>
+            <div class="form-group">
+                <label asp-for="Payment" class="control-label"></label>
+                <select asp-for="Payment" class="form-control">
+                    <option value="">Choose Payment Duration</option>
+                    <option value="Daily">Daily</option>
+                    <option value="Weekly">Weekly</option>
+                    <option value="Bi-Monthly">Bi-Monthly</option>
+                    <option value="Monthly">Monthly</option>
+                    <option value="Yearly">Yearly</option>
+                </select>
+                <span asp-validation-for="Payment" class="text-danger"></span>
+            </div>
 
-        <div class="form-group">
-            <label asp-for="Deduction" class="control-label"></label>
-            <input asp-for="Deduction" class="form-control"/>
-            <span asp-validation-for="Deduction" class="text-danger"></span>
-        </div>
+            <div class="form-group">
+                <label asp-for="Interest" class="control-label"></label>
+                <input asp-for="Interest" class="form-control"/>
+                <span asp-validation-for="Interest" class="text-danger"></span>
+            </div>
 
-        <div class="form-group">
-            <label for="AmountPaid">Payment per term</label>
-            <input asp-for="AmountPaid" class="form-control" readonly/>
-            <span asp-validation-for="AmountPaid" class="text-danger"></span>
-        </div>
+            <div class="form-group">
+                <label asp-for="Deduction" class="control-label"></label>
+                <input asp-for="Deduction" class="form-control"/>
+                <span asp-validation-for="Deduction" class="text-danger"></span>
+            </div>
 
-        <div class="form-group">
-            <label asp-for="Total" class="control-label"></label>
-            <input asp-for="Total" class="form-control" readonly/>
-            <span asp-validation-for="Total" class="text-danger"></span>
-        </div>
+            <div class="form-group">
+                <label for="AmountPaid">Payment per term</label>
+                <input asp-for="AmountPaid" class="form-control" readonly/>
+                <span asp-validation-for="AmountPaid" class="text-danger"></span>
+            </div>
 
-        <div class="form-group">
-            <label asp-for="DueDate" class="control-label"></label>
-            <input type="date" asp-for="DueDate" class="form-control" readonly/>
-            <span asp-validation-for="DueDate" class="text-danger"></span>
-        </div>
+            <div class="form-group">
+                <label asp-for="Total" class="control-label"></label>
+                <input asp-for="Total" class="form-control" readonly/>
+                <span asp-validation-for="Total" class="text-danger"></span>
+            </div>
 
-        <div class="form-group">
-            <input type="hidden" asp-for="ReceivableAmount" class="form-control" readonly/>
-            <span asp-validation-for="ReceivableAmount" class="text-danger"></span>
-        </div>
+            <div class="form-group">
+                <label asp-for="DueDate" class="control-label"></label>
+                <input type="date" asp-for="DueDate" class="form-control" readonly/>
+                <span asp-validation-for="DueDate" class="text-danger"></span>
+            </div>
 
-        <div class="form-group">
-            <input type="submit" class="btn btn-success" value="ADD LOAN">
-        </div>
-    </form>
+            <div class="form-group">
+                <input type="hidden" asp-for="ReceivableAmount" class="form-control" readonly/>
+                <span asp-validation-for="ReceivableAmount" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" class="btn btn-success" value="ADD LOAN">
+            </div>
+        </form>
+    </div>
 </div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
     $(document).ready(function() {
         function calculateLoanDetails() {
@@ -94,7 +108,7 @@
                     dueDate.setDate(dueDate.getDate() + (term * 7));
                     break;
                 case 'Bi-Monthly':
-                    dueDate.setMonth(dueDate.getMonth() + (term * 2));
+                    dueDate.setMonth(dueDate.getMonth() + Math.ceil(term / 2));
                     break;
                 case 'Monthly':
                     dueDate.setMonth(dueDate.getMonth() + term);
@@ -119,9 +133,11 @@
             $('input[name="ReceivableAmount"]').val(totalReceivable.toFixed(2));
         }
 
-        $('input[name="Amount"], input[name="Term"], input[name="Interest"], input[name="Deduction"], select[name="Payment"]').on('change', calculateLoanDetails);
+        $('input[name="Amount"], input[name="Term"], input[name="Interest"], input[name="Deduction"], select[name="Payment"]').on('input change', calculateLoanDetails);
 
-        // Initial calculation on page load
         calculateLoanDetails();
     });
 </script>
+
+</body>
+</html>
