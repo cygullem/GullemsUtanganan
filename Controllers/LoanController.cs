@@ -16,30 +16,42 @@ namespace GULLEM_NEW_MVC.Controllers
             _context = context;
         }
 
-        // GET: Loan/AddLoan
-        public IActionResult AddLoan(int clientId)
+        // GET: Loan/Loan
+        public IActionResult Loan(int id)
         {
-            var loan = new Loan { Borrower = clientId };
-            return View("~/Views/Client/AddLoan.cshtml", loan);
+            // Load the loan details based on the id
+            var model = new Loan
+            {
+                Borrower = id
+                // Load other details
+            };
+            return View(model); // It will now automatically look for Views/Loan/Loan.cshtml
+        }
+
+        // GET: Loan/AddLoan
+        public IActionResult AddLoan(int id)
+        {
+            var model = new Loan
+            {
+                Borrower = id
+            };
+            return View(model); // It will now automatically look for Views/Loan/AddLoan.cshtml
         }
 
         // POST: Loan/AddLoan
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddLoan(Loan loan)
+        public IActionResult AddLoan(Loan model)
         {
             if (ModelState.IsValid)
             {
-                loan.DueDate = CalculateDueDate(loan);
-                loan.DateCreated = BitConverter.GetBytes(DateTime.Now.ToBinary());
-                _context.Loans.Add(loan);
-                await _context.SaveChangesAsync();
+                // Save the loan details to the database here
 
-                return RedirectToAction("Loan", "Client", new { id = loan.Borrower });
+                return RedirectToAction("Loan", "Client", new { id = model.Borrower });
             }
-            return View("~/Views/Client/AddLoan.cshtml", loan);
+            return View(model); // It will now automatically look for Views/Loan/AddLoan.cshtml
         }
 
+        
         private DateTime CalculateDueDate(Loan loan)
         {
             DateTime dueDate = DateTime.Now;
@@ -67,16 +79,16 @@ namespace GULLEM_NEW_MVC.Controllers
         }
 
         // GET: Loan/Loan/5
-        public async Task<IActionResult> Loan(int id)
-        {
-            var loans = await _context.Loans.Where(l => l.Borrower == id).ToListAsync();
-            if (loans == null || !loans.Any())
-            {
-                return NotFound();
-            }
-            ViewBag.ClientName = (await _context.ClientInfos.FindAsync(id))?.FirstName;
-            return View(loans);
-        }
+        // public async Task<IActionResult> Loan(int id)
+        // {
+        //     var loans = await _context.Loans.Where(l => l.Borrower == id).ToListAsync();
+        //     if (loans == null || !loans.Any())
+        //     {
+        //         return NotFound();
+        //     }
+        //     ViewBag.ClientName = (await _context.ClientInfos.FindAsync(id))?.FirstName;
+        //     return View(loans);
+        // }
 
         // GET: Loan/Details/5
         public async Task<IActionResult> Details(int id)

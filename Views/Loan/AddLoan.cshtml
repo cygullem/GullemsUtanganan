@@ -57,25 +57,25 @@
             </div>
 
             <div class="form-group">
-                <label for="AmountPaid">Payment per term</label>
-                <input asp-for="AmountPaid" class="form-control" readonly/>
-                <span asp-validation-for="AmountPaid" class="text-danger"></span>
+                <label>Amount Paid</label>
+                <input asp-for="PaymentAmount" class="form-control" readonly />
+                <span asp-validation-for="PaymentAmount" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="Total" class="control-label"></label>
-                <input asp-for="Total" class="form-control" readonly/>
-                <span asp-validation-for="Total" class="text-danger"></span>
+                <label>Total Amount</label>
+                <input asp-for="TotalAmount" class="form-control" readonly />
+                <span asp-validation-for="TotalAmount" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="DueDate" class="control-label"></label>
-                <input type="date" asp-for="DueDate" class="form-control" readonly/>
+                <input type="date" asp-for="DueDate" class="form-control" readonly />
                 <span asp-validation-for="DueDate" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <input type="hidden" asp-for="ReceivableAmount" class="form-control" readonly/>
+                <input type="hidden" asp-for="ReceivableAmount" class="form-control" readonly />
                 <span asp-validation-for="ReceivableAmount" class="text-danger"></span>
             </div>
 
@@ -127,8 +127,8 @@
             var totalReceivable = amountPaidPerTerm * paymentTerms;
             var totalAfterDeductions = totalReceivable - deduction;
 
-            $('input[name="AmountPaid"]').val(amountPaidPerTerm.toFixed(2));
-            $('input[name="Total"]').val(totalAfterDeductions.toFixed(2));
+            $('input[name="PaymentAmount"]').val(amountPaidPerTerm.toFixed(2));
+            $('input[name="TotalAmount"]').val(totalAfterDeductions.toFixed(2));
             $('input[name="DueDate"]').val(dueDate.toISOString().split('T')[0]);
             $('input[name="ReceivableAmount"]').val(totalReceivable.toFixed(2));
         }
