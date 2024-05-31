@@ -18,5 +18,8 @@ namespace GULLEM_NEW_MVC.Entities
         public string Status { get; set; }
         public DateTime DueDate { get; set; }
         public DateTime DateCreated { get; set; }
+
+        // Navigation property for ClientInfo
+        public ClientInfo ClientInfo { get; set; }
     }
 }

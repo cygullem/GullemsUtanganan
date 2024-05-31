@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace GULLEM_NEW_MVC.Entities;
+﻿namespace GULLEM_NEW_MVC.Entities;
 
 public partial class UserType
 {

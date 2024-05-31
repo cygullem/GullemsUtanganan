@@ -16,17 +16,22 @@ namespace GULLEM_NEW_MVC.Controllers
             _context = context;
         }
 
-        // GET: Loan/Loan
-        public IActionResult Loan(int id)
+        // GET: Loan/UserLoans
+        public async Task<IActionResult> UserLoans(int id)
         {
-            // Load the loan details based on the id
-            var model = new Loan
+            var clientInfo = await _context.ClientInfos
+                                           .Include(c => c.Loans)
+                                           .FirstOrDefaultAsync(c => c.Id == id);
+
+            if (clientInfo == null)
             {
-                Borrower = id
-                // Load other details
-            };
-            return View(model); // It will now automatically look for Views/Loan/Loan.cshtml
+                return NotFound();
+            }
+
+            return View(clientInfo);
         }
+
+        // Other actions...
 
         // GET: Loan/AddLoan
         public IActionResult AddLoan(int id)
@@ -35,7 +40,7 @@ namespace GULLEM_NEW_MVC.Controllers
             {
                 Borrower = id
             };
-            return View(model); // It will now automatically look for Views/Loan/AddLoan.cshtml
+            return View(model); 
         }
 
         // POST: Loan/AddLoan
@@ -44,14 +49,11 @@ namespace GULLEM_NEW_MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Save the loan details to the database here
-
                 return RedirectToAction("Loan", "Client", new { id = model.Borrower });
             }
-            return View(model); // It will now automatically look for Views/Loan/AddLoan.cshtml
+            return View(model); 
         }
 
-        
         private DateTime CalculateDueDate(Loan loan)
         {
             DateTime dueDate = DateTime.Now;
@@ -77,18 +79,6 @@ namespace GULLEM_NEW_MVC.Controllers
             }
             return dueDate;
         }
-
-        // GET: Loan/Loan/5
-        // public async Task<IActionResult> Loan(int id)
-        // {
-        //     var loans = await _context.Loans.Where(l => l.Borrower == id).ToListAsync();
-        //     if (loans == null || !loans.Any())
-        //     {
-        //         return NotFound();
-        //     }
-        //     ViewBag.ClientName = (await _context.ClientInfos.FindAsync(id))?.FirstName;
-        //     return View(loans);
-        // }
 
         // GET: Loan/Details/5
         public async Task<IActionResult> Details(int id)

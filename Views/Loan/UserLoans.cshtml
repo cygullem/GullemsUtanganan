@@ -1,0 +1,26 @@
+@model GULLEM_NEW_MVC.Entities.ClientInfo
+
+<div class="Loan_container">
+    <h1>@Model.FirstName's Loans</h1>
+
+    <div>
+        <a class="btn btn-primary" href="@Url.Action("Index", "Client")">Mainpage</a>
+        <a class="btn btn-success" href="@Url.Action("AddLoan", "Loan", new { clientId = Model.Id })">Add Loan</a>
+    </div>
+
+    <div class="loan-details">
+        @if (Model.Loans != null && Model.Loans.Any())
+        {
+            <ul>
+                @foreach (var loan in Model.Loans)
+                {
+                    @* <li>@loan.Description - @loan.Amount - @loan.DueDate.ToShortDateString()</li> *@
+                }
+            </ul>
+        }
+        else
+        {
+            <p>No loans found for this client.</p>
+        }
+    </div>
+</div>

@@ -1,11 +1,9 @@
 @using GULLEM_NEW_MVC.Entities
-@model List<GULLEM_NEW_MVC.Entities.ClientInfo>
+@model GULLEM_NEW_MVC.Entities.ClientInfo
 
 <div class="container-all">
     <div>
-        <h1>
-            CLIENT INFO
-        </h1>
+        <h1>CLIENT INFO</h1>
     </div>
     <div class="row">
         <div class="col-md-12">
@@ -14,9 +12,9 @@
                     <div class="form-group">
                         <label>User Type</label>
                         <select class="form-control" name="UerType">
-                            @if (ViewData["UserTypes"] != null)
+                            @if (ViewBag.UserTypes != null)
                             {
-                                foreach (var userType in ViewData["UserTypes"] as List<UserType>)
+                                foreach (var userType in ViewBag.UserTypes as List<UserType>)
                                 {
                                     <option value="@userType.Id">@userType.Name</option>
                                 }
@@ -29,63 +27,53 @@
                     </div>
                     <div class="form-group">
                         <label>First Name</label>
-                        <input type="text" class="form-control" name="FirstName">
-                        @Html.ValidationMessageFor(model => model.First().FirstName, "", new { @class = "text-danger" })
+                        <input type="text" class="form-control" name="FirstName" value="@Model?.FirstName">
+                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-group">
                         <label>Middle Name</label>
-                        <input type="text" class="form-control" name="MiddleName">
-                        @Html.ValidationMessageFor(model => model.First().MiddleName, "", new
-                            {
-                                @class = "text-danger"
-                            })
+                        <input type="text" class="form-control" name="MiddleName" value="@Model?.MiddleName">
+                        @Html.ValidationMessageFor(model => model.MiddleName, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-group">
                         <label>Last Name</label>
-                        <input type="text" class="form-control" name="LastName">
-                        @Html.ValidationMessageFor(model => model.First().LastName, "", new { @class = "text-danger" })
+                        <input type="text" class="form-control" name="LastName" value="@Model?.LastName">
+                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-group">
                         <label>Address</label>
-                        <input type="text" class="form-control" name="Address">
-                        @Html.ValidationMessageFor(model => model.First().Address, "", new { @class = "text-danger" })
+                        <input type="text" class="form-control" name="Address" value="@Model?.Address">
+                        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-group">
                         <label>Zip Code</label>
-                        <input class="form-control" name="ZipCode"></input>
-                        @Html.ValidationMessageFor(model => model.First().ZipCode, "", new { @class = "text-danger" })
+                        <input class="form-control" name="ZipCode" value="@Model?.ZipCode">
+                        @Html.ValidationMessageFor(model => model.ZipCode, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-group">
                         <label>Birthday</label>
-                        <input type="date" class="form-control" id="Birthday" name="BirthDay" />
-                        @Html.ValidationMessageFor(model => model.First().Birthday, "", new { @class = "text-danger" })
+                        <input type="date" class="form-control" id="Birthday" name="Birthday" value="@Model?.Birthday?.ToString("yyyy-MM-dd")" />
+                        @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-group addBtn">
-                        <input class="btn btn-success form-control" type="button" id="submitButton"
-                            value="Submit"></input>
+                        <input class="btn btn-success form-control" type="submit" id="submitButton" value="Submit"></input>
                     </div>
                 </div>
 
                 <div class="add-client-form-right">
                     <div class="form-group">
                         <label>Age</label>
-                        <input class="form-control" id="Age" name="Age" readonly></input>
+                        <input class="form-control" id="Age" name="Age" value="@Model?.Age" readonly></input>
                     </div>
                     <div class="form-group">
                         <label>Name Of Father</label>
-                        <input class="form-control" name="NameOfFather"></input>
-                        @Html.ValidationMessageFor(model => model.First().NameOfFather, "", new
-                            {
-                                @class = "text-danger"
-                            })
+                        <input class="form-control" name="NameOfFather" value="@Model?.NameOfFather"></input>
+                        @Html.ValidationMessageFor(model => model.NameOfFather, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-group">
                         <label>Name Of Mother</label>
-                        <input class="form-control" name="NameOfMother"></input>
-                        @Html.ValidationMessageFor(model => model.First().NameOfMother, "", new
-                            {
-                                @class = "text-danger"
-                            })
+                        <input class="form-control" name="NameOfMother" value="@Model?.NameOfMother"></input>
+                        @Html.ValidationMessageFor(model => model.NameOfMother, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-group">
                         <label>Civil Status</label>
@@ -96,58 +84,33 @@
                             <option value="Divorced">Divorced/Separated</option>
                             <option value="Widowed">Widow(er)</option>
                         </select>
-                        @Html.ValidationMessageFor(model => model.First().CivilStatus, "", new
-                            {
-                                @class = "text-danger"
-                            })
+                        @Html.ValidationMessageFor(model => model.CivilStatus, "", new { @class = "text-danger" })
                     </div>
+
                     <div class="form-group">
                         <label>Religion</label>
-                        <input class="form-control" name="Religion"></input>
-                        @Html.ValidationMessageFor(model => model.First().Religion, "", new { @class = "text-danger" })
+                        <input class="form-control" name="Religion" value="@Model?.Religion"></input>
+                        @Html.ValidationMessageFor(model => model.Religion, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-group">
                         <label>Occupation</label>
-                        <input class="form-control" name="Occupation"></input>
-                        @Html.ValidationMessageFor(model => model.First().Occupation, "", new
-                            {
-                                @class = "text-danger"
-                            })
+                        <input class="form-control" name="Occupation" value="@Model?.Occupation"></input>
+                        @Html.ValidationMessageFor(model => model.Occupation, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </form>
+
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                        {
+                            <li>@error.ErrorMessage</li>
+                        }
+                    </ul>
+                </div>
+            }
         </div>
     </div>
 </div>
-<script>
-    document.getElementById("submitButton").addEventListener("click", function (event) {
-        console.log("Button clicked");
-        event.preventDefault();
-
-        var hasEmptyFields = false;
-
-        var inputs = document.querySelectorAll("form#addClientForm .form-control");
-
-        inputs.forEach(function (input) {
-            console.log("Input value:", input.value);
-            if (input.value.trim() === '') {
-                var errorMessage = input.previousElementSibling.innerText + " is required";
-                var errorElement = input.nextElementSibling;
-                if (errorElement) {
-                    errorElement.innerText = errorMessage;
-                }
-                hasEmptyFields = true;
-            } else {
-                var errorElement = input.nextElementSibling;
-                if (errorElement) {
-                    errorElement.innerText = "";
-                }
-            }
-        });
-
-        if (!hasEmptyFields) {
-            document.getElementById("submitButton").type = "submit";
-            document.getElementById("addClientForm").submit();
-        }
-    });
-</script>

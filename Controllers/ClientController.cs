@@ -18,6 +18,40 @@ namespace GULLEM_NEW_MVC.Controllers
         }
 
 
+        
+        public IActionResult AddClient()
+        {
+            ViewBag.UserTypes = _context.UserTypes.ToList();
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddClient(ClientInfo clientInfo)
+        {
+            if (!ModelState.IsValid)
+            {
+                foreach (var modelState in ViewData.ModelState.Values)
+                {
+                    foreach (var error in modelState.Errors)
+                    {
+                        Console.WriteLine(error.ErrorMessage);
+                    }
+                }
+                ViewBag.UserTypes = await _context.UserTypes.ToListAsync();
+                return View(clientInfo);
+            }
+
+            _context.ClientInfos.Add(clientInfo);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+
+
+
+
+
+
         // GET: Client
         public async Task<IActionResult> Index()
         {
@@ -74,23 +108,7 @@ namespace GULLEM_NEW_MVC.Controllers
             return View();
         }
 
-        public IActionResult AddClient()
-        {
-            ViewBag.UserTypes = _context.UserTypes.ToList();
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> AddClient(ClientInfo clientInfo)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(clientInfo);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(clientInfo);
-        }
+        
 
         [HttpPost]
         [ValidateAntiForgeryToken]
