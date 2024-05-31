@@ -48,10 +48,6 @@ namespace GULLEM_NEW_MVC.Controllers
 
 
 
-
-
-
-
         // GET: Client
         public async Task<IActionResult> Index()
         {

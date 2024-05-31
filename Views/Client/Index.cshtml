@@ -104,7 +104,7 @@
                         <td>
                             <a class="btn btn-warning Btn" asp-action="UpdateClient" asp-route-id="@item.Id">Update</a>
                             <a class="btn btn-danger Btn" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                            <a class="btn btn-success Btn" asp-action="Loan" asp-controller="Loan" asp-route-id="@item.Id">Activities</a>
+                            <a class="btn btn-success Btn" asp-controller="Loan" asp-action="UserLoans" asp-route-id="@item.Id">Activities</a>
                         </td>
                     </tr>
                 }
