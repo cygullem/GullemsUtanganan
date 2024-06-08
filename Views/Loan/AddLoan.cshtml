@@ -1,3 +1,4 @@
+@using GULLEM_NEW_MVC.Entities
 @model GULLEM_NEW_MVC.Entities.Loan
 
 <!DOCTYPE html>
@@ -12,10 +13,10 @@
 
 <div class="container-fluid">
     <div class="Loan_Information">
-        <h1>Add Loan for Client ID: @Model.Borrower</h1>
-        <a class="btn btn-primary" href="@Url.Action("Index", "Client")">Mainpage</a>
-        <a class="btn btn-success" href="@Url.Action("Loan", "Client", new { id = Model.Borrower })">Go Back</a>
-
+        <h1>Add Loan for Client ID: @Model.Id</h1>
+        <a class="btn btn-primary" href="@Url.Action("Index", "Client")">MAINPAGE</a>
+        <a class="btn btn-success" href="@Url.Action("UserLoans", "Loan")">RETURN</a>
+       
         <form asp-action="AddLoan" asp-controller="Loan" method="post">
             <input type="hidden" asp-for="Borrower">
 

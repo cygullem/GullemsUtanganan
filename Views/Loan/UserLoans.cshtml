@@ -11,12 +11,31 @@
     <div class="loan-details">
         @if (Model.Loans != null && Model.Loans.Any())
         {
-            <ul>
-                @foreach (var loan in Model.Loans)
-                {
-                    @* <li>@loan.Description - @loan.Amount - @loan.DueDate.ToShortDateString()</li> *@
-                }
-            </ul>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Amount</th>
+                        <th>Payment Amount</th>
+                        <th>Interest Amount</th>
+                        <th>Total Amount</th>
+                        <th>Due Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var loan in Model.Loans)
+                    {
+                        <tr>
+                            <td>@loan.Amount</td>
+                            <td>@loan.PaymentAmount</td>
+                            <td>@loan.InterestAmount</td>
+                            <td>@loan.TotalAmount</td>
+                            <td>@loan.DueDate.ToShortDateString()</td>
+                            <td>@loan.Status</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         }
         else
         {

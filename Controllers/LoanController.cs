@@ -31,8 +31,8 @@ namespace GULLEM_NEW_MVC.Controllers
             return View(clientInfo);
         }
 
-        // Other actions...
-
+    
+    
         // GET: Loan/AddLoan
         public IActionResult AddLoan(int id)
         {
