@@ -1,45 +1,83 @@
 @model GULLEM_NEW_MVC.Entities.ClientInfo
+<!DOCTYPE html>
+<html lang="en">
 
-<div class="Loan_container">
-    <h1>@Model.FirstName's Loans</h1>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=\, initial-scale=1.0">
+    <title>UserLoans</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
+</head>
 
-    <div>
-        <a class="btn btn-primary" href="@Url.Action("Index", "Client")">Mainpage</a>
-        <a class="btn btn-success" href="@Url.Action("AddLoan", "Loan", new { clientId = Model.Id })">Add Loan</a>
-    </div>
+<body>
+    <div class="Loan_container">
+        <h1>@Model.FirstName's Loans</h1>
 
-    <div class="loan-details">
-        @if (Model.Loans != null && Model.Loans.Any())
-        {
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Amount</th>
-                        <th>Payment Amount</th>
-                        <th>Interest Amount</th>
-                        <th>Total Amount</th>
-                        <th>Due Date</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var loan in Model.Loans)
-                    {
+        <div>
+            <a class="btn btn-primary" href="@Url.Action("Index", "Client")">Mainpage</a>
+            <a class="btn btn-success" href="@Url.Action("AddLoan", "Loan", new { clientId = Model.Id })">Add Loan</a>
+        </div>
+
+        <div class="loan-details">
+            @if (Model.Loans != null && Model.Loans.Any())
+            {
+                <table class="table" id="loan_details">
+                    <thead>
                         <tr>
-                            <td>@loan.Amount</td>
-                            <td>@loan.PaymentAmount</td>
-                            <td>@loan.InterestAmount</td>
-                            <td>@loan.TotalAmount</td>
-                            <td>@loan.DueDate.ToShortDateString()</td>
-                            <td>@loan.Status</td>
+                            <th>Id</th>
+                            <th>Borrower</th>
+                            <th>Amount</th>
+                            <th>Term</th>
+                            <th>Payment</th>
+                            <th>Amount Paid</th>
+                            <th>Interest Amount</th>
+                            <th>Total</th>
+                            <th>Interest</th>
+                            <th>Deduction</th>
+                            <th>Receivable Amount</th>
+                            <th>Status</th>
+                            <th>Due Date</th>
+                            <th>Date Created</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
-        }
-        else
-        {
-            <p>No loans found for this client.</p>
-        }
+                    </thead>
+                    <tbody>
+                        @foreach (var loan in Model.Loans)
+                        {
+                            <tr>
+                                <td>@loan.Id</td>
+                                <td>@loan.Borrower</td>
+                                <td>@loan.Amount</td>
+                                <td>@loan.Term</td>
+                                <td>@loan.Payment</td>
+                                <td>@loan.AmountPaid</td>
+                                <td>@loan.InterestAmount</td>
+                                <td>@loan.Total</td>
+                                <td>@loan.Interest</td>
+                                <td>@loan.Deduction</td>
+                                <td>@loan.ReceivableAmount</td>
+                                <td>@loan.Status</td>
+                                <td>@loan.DueDate.ToShortDateString()</td>
+                                <td>@loan.DateCreated.ToShortDateString()</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="noloans">
+                    <img src="~/images/noloansfound.png" alt="No loans found">
+                </div>
+            }
+        </div>
     </div>
-</div>
+
+    <script src="//cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#loan_details').DataTable();
+        });
+    </script>
+</body>
+
+</html>

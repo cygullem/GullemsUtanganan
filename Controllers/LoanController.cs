@@ -34,13 +34,14 @@ namespace GULLEM_NEW_MVC.Controllers
     
     
         // GET: Loan/AddLoan
-        public IActionResult AddLoan(int id)
+        public IActionResult AddLoan(int clientId)
         {
-            var model = new Loan
+            var loan = new Loan
             {
-                Borrower = id
+                Borrower = clientId
             };
-            return View(model); 
+
+            return View(loan);
         }
 
         // POST: Loan/AddLoan

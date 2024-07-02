@@ -79,15 +79,22 @@ public partial class GullemsUtangananContext : DbContext
                     .IsConcurrencyToken();
                 entity.Property(e => e.DueDate).HasColumnType("date");
                 entity.Property(e => e.Payment)
-                    .HasMaxLength(20)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
                 entity.Property(e => e.Status)
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.PaymentAmount).HasColumnName("PaymentAmount");
-                entity.Property(e => e.TotalAmount).HasColumnName("TotalAmount");
+                entity.Property(e => e.Amount).IsRequired();
+                entity.Property(e => e.Term).IsRequired();
+                entity.Property(e => e.AmountPaid).HasColumnName("AmountPaid");
+                entity.Property(e => e.InterestAmount).HasColumnName("InterestAmount");
+                entity.Property(e => e.Total).HasColumnName("Total");
+                entity.Property(e => e.Interest).HasColumnName("Interest");
+                entity.Property(e => e.Deduction).HasColumnName("Deduction");
+                entity.Property(e => e.ReceivableAmount).HasColumnName("ReceivableAmount");
             });
+
 
             modelBuilder.Entity<UserType>(entity =>
             {

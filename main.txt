@@ -3,3 +3,10 @@ dotnet ef dbcontext scaffold "Server=localhost\SQLEXPRESS;Database=GullemsUtanga
 
 //if don't have a dotnet ef file install this, note that the package with your version number. 
  dotnet tool install --global dotnet-ef --version 7.0.0`
+
+
+  @* <footer class="footer text-muted">
+        <div class="footer-container">
+            &copy; 2024 - GULLEM_NEW_MVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer> *@
