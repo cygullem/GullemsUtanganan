@@ -16,12 +16,14 @@ namespace GULLEM_NEW_MVC.Controllers
             _context = context;
         }
 
+
+
         // GET: Loan/UserLoans
         public async Task<IActionResult> UserLoans(int id)
         {
             var clientInfo = await _context.ClientInfos
-                                           .Include(c => c.Loans)
-                                           .FirstOrDefaultAsync(c => c.Id == id);
+                                            .Include(c => c.Loans)
+                                            .FirstOrDefaultAsync(c => c.Id == id);
 
             if (clientInfo == null)
             {
@@ -44,16 +46,35 @@ namespace GULLEM_NEW_MVC.Controllers
             return View(loan);
         }
 
+
+
         // POST: Loan/AddLoan
         [HttpPost]
-        public IActionResult AddLoan(Loan model)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddLoan(Loan model)
         {
             if (ModelState.IsValid)
             {
-                return RedirectToAction("Loan", "Client", new { id = model.Borrower });
+                try
+                {
+                    model.DueDate = CalculateDueDate(model); 
+                    model.DateCreated = DateTime.Now; 
+
+                    _context.Add(model);
+                    await _context.SaveChangesAsync();
+                    
+                    return RedirectToAction("UserLoans", "Loan", new { id = model.Borrower });
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError(string.Empty, $"Error: {ex.Message}");
+                    return View(model);
+                }
             }
             return View(model); 
         }
+
+
 
         private DateTime CalculateDueDate(Loan loan)
         {
@@ -81,6 +102,8 @@ namespace GULLEM_NEW_MVC.Controllers
             return dueDate;
         }
 
+
+
         // GET: Loan/Details/5
         public async Task<IActionResult> Details(int id)
         {
@@ -92,6 +115,8 @@ namespace GULLEM_NEW_MVC.Controllers
             return View(loan);
         }
 
+
+
         // GET: Loan/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
@@ -102,6 +127,8 @@ namespace GULLEM_NEW_MVC.Controllers
             }
             return View(loan);
         }
+
+
 
         // POST: Loan/Delete/5
         [HttpPost, ActionName("Delete")]
