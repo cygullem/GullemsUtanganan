@@ -4,6 +4,7 @@ using GULLEM_NEW_MVC.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GULLEMNEWMVC.Migrations
 {
     [DbContext(typeof(GullemsUtangananContext))]
-    partial class GullemsUtangananContextModelSnapshot : ModelSnapshot
+    [Migration("20240702173359_initialadd")]
+    partial class initialadd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -65,14 +65,19 @@ namespace GULLEM_NEW_MVC.Controllers
                     
                     return RedirectToAction("UserLoans", "Loan", new { id = model.Borrower });
                 }
-                catch (Exception ex)
+                catch (DbUpdateException ex)
                 {
-                    ModelState.AddModelError(string.Empty, $"Error: {ex.Message}");
-                    return View(model);
+                    var innerException = ex.InnerException;
+                    while (innerException != null)
+                    {
+                        Console.WriteLine(innerException.Message);
+                        innerException = innerException.InnerException;
+                    }
+                    throw; // Rethrow the exception or handle as needed
                 }
             }
             return View(model); 
-        }
+}
 
 
 

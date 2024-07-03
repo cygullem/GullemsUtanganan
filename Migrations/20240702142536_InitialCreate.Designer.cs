@@ -4,6 +4,7 @@ using GULLEM_NEW_MVC.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GULLEMNEWMVC.Migrations
 {
     [DbContext(typeof(GullemsUtangananContext))]
-    partial class GullemsUtangananContextModelSnapshot : ModelSnapshot
+    [Migration("20240702142536_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,7 +29,8 @@ namespace GULLEMNEWMVC.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("Id");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
@@ -98,7 +102,8 @@ namespace GULLEMNEWMVC.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("Id");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
@@ -109,13 +114,14 @@ namespace GULLEMNEWMVC.Migrations
                         .HasColumnType("decimal(18,2)")
                         .HasColumnName("AmountPaid");
 
-                    b.Property<int?>("Borrower")
+                    b.Property<int>("Borrower")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateCreated")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("dateCreated");
 
                     b.Property<decimal>("Deduction")
                         .HasColumnType("decimal(18,2)")
@@ -133,6 +139,7 @@ namespace GULLEMNEWMVC.Migrations
                         .HasColumnName("InterestAmount");
 
                     b.Property<string>("Payment")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
@@ -143,11 +150,9 @@ namespace GULLEMNEWMVC.Migrations
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(50)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(50)")
-                        .HasDefaultValue("unpaid");
+                        .HasColumnType("varchar(50)");
 
                     b.Property<int>("Term")
                         .HasColumnType("int");
@@ -168,7 +173,8 @@ namespace GULLEMNEWMVC.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("Id");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
@@ -189,7 +195,8 @@ namespace GULLEMNEWMVC.Migrations
                     b.HasOne("GULLEM_NEW_MVC.Entities.ClientInfo", "ClientInfo")
                         .WithMany("Loans")
                         .HasForeignKey("Borrower")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
 
                     b.Navigation("ClientInfo");
                 });

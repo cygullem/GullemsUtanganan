@@ -3,47 +3,43 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loan Application</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
-
 <body>
-    <div class="container fluid">
+    <div class="">
         <div class="row">
             <div class="col-md-8 offset-md-2">
                 <h1 class="mt-4">Add Loan for Client ID: @Model.Borrower</h1>
                 <div class="mb-3">
                     <a class="btn btn-primary" href="@Url.Action("Index", "Client")">Main Page</a>
-                    <a class="btn btn-success" href="@Url.Action("UserLoans", "Loan", new { id = ViewData["ClientId"] })">RETURN</a>
+                    <a class="btn btn-success" href="@Url.Action("UserLoans", "Loan", new { id = ViewData["ClientId"] })">Return</a>
                 </div>
-
                 <form asp-action="AddLoan" asp-controller="Loan" method="post">
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <input type="hidden" asp-for="Borrower">
 
                     <div class="form-group">
                         <label asp-for="Amount" class="control-label">Amount</label>
-                        <input asp-for="Amount" class="form-control" />
+                        <input asp-for="Amount" class="form-control" id="Amount" />
                         <span asp-validation-for="Amount" class="text-danger"></span>
                     </div>
 
                     <div class="form-group">
                         <label asp-for="Term" class="control-label">Term</label>
-                        <input asp-for="Term" class="form-control" />
+                        <input asp-for="Term" class="form-control" id="Term" />
                         <span asp-validation-for="Term" class="text-danger"></span>
                     </div>
 
                     <div class="form-group">
                         <label asp-for="Payment" class="control-label">Payment</label>
-                        <select asp-for="Payment" class="form-control">
+                        <select asp-for="Payment" class="form-control" id="paymentSelect">
                             <option value="">Choose Payment Duration</option>
                             <option value="Daily">Daily</option>
                             <option value="Weekly">Weekly</option>
-                            <option value="Bi-Monthly">Bi-Monthly</option>
                             <option value="Monthly">Monthly</option>
                             <option value="Yearly">Yearly</option>
                         </select>
@@ -52,19 +48,19 @@
 
                     <div class="form-group">
                         <label asp-for="Interest" class="control-label">Interest</label>
-                        <input asp-for="Interest" class="form-control" />
+                        <input asp-for="Interest" class="form-control" id="Interest" />
                         <span asp-validation-for="Interest" class="text-danger"></span>
                     </div>
 
                     <div class="form-group">
                         <label asp-for="Deduction" class="control-label">Deduction</label>
-                        <input asp-for="Deduction" class="form-control" />
+                        <input asp-for="Deduction" class="form-control" id="Deduction" />
                         <span asp-validation-for="Deduction" class="text-danger"></span>
                     </div>
 
                     <div class="form-group">
                         <label asp-for="AmountPaid" class="control-label">Amount Paid</label>
-                        <input asp-for="AmountPaid" class="form-control" readonly />
+                        <input asp-for="AmountPaid" class="form-control" id="paymentAmount" readonly />
                         <span asp-validation-for="AmountPaid" class="text-danger"></span>
                     </div>
 
@@ -76,7 +72,7 @@
 
                     <div class="form-group">
                         <label asp-for="Total" class="control-label">Total</label>
-                        <input asp-for="Total" class="form-control" readonly />
+                        <input asp-for="Total" class="form-control" id="Total" readonly />
                         <span asp-validation-for="Total" class="text-danger"></span>
                     </div>
 
@@ -88,7 +84,7 @@
 
                     <div class="form-group">
                         <label asp-for="DueDate" class="control-label">Due Date</label>
-                        <input type="date" asp-for="DueDate" class="form-control" readonly />
+                        <input type="date" asp-for="DueDate" class="form-control" id="dueDate" readonly />
                         <span asp-validation-for="DueDate" class="text-danger"></span>
                     </div>
 
@@ -101,56 +97,79 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        $(document).ready(function () {
-            function calculateLoanDetails() {
-                var amount = parseFloat($('input[name="Amount"]').val()) || 0;
-                var term = parseInt($('input[name="Term"]').val()) || 0;
-                var interest = parseFloat($('input[name="Interest"]').val()) || 0;
-                var deduction = parseFloat($('input[name="Deduction"]').val()) || 0;
-                var paymentFrequency = $('select[name="Payment"]').val();
+        function calculatePaymentAmount(term, payment, amount) {
+            var interestRate = parseFloat(document.getElementById('Interest').value) / 100; // Interest rate in decimal
+            var paymentAmount = 0;
 
-                var paymentTerms = term;
+            switch (payment) {
+                case 'Daily':
+                    paymentAmount = amount / term;
+                    break;
+                case 'Weekly':
+                    paymentAmount = amount / term; // Assuming 4 weeks in a month
+                    break;
+                case 'Monthly':
+                    paymentAmount = amount / term;
+                    break;
+                case 'Yearly':
+                    paymentAmount = amount / (term * 12);
+                    break;
+                default:
+                    break;
+            }
+
+            return paymentAmount.toFixed(2);
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            function updateLoanDetails() {
+                var term = parseInt(document.getElementById('Term').value);
+                var payment = document.getElementById('paymentSelect').value;
+                var amount = parseInt(document.getElementById('Amount').value);
+                var interest = parseInt(document.getElementById('Interest').value);
+                var deductionInput = document.getElementById('Deduction');
+                var deduction = deductionInput.value ? parseInt(deductionInput.value) : 0;
+
+                var totalInterest = (amount * (interest / 100)).toFixed(2);
+                var totalAmount = (amount + parseFloat(totalInterest) - deduction).toFixed(2);
+                var receivableAmount = (amount - deduction).toFixed(2);
+
+                var paymentAmount = calculatePaymentAmount(term, payment, receivableAmount);
+
+                document.getElementById('paymentAmount').value = paymentAmount;
+                document.getElementById('InterestAmount').value = totalInterest;
+                document.getElementById('Total').value = totalAmount;
+                document.getElementById('ReceivableAmount').value = receivableAmount;
+
                 var dueDate = new Date();
-
-                switch (paymentFrequency) {
+                switch (payment) {
                     case 'Daily':
                         dueDate.setDate(dueDate.getDate() + term);
                         break;
                     case 'Weekly':
                         dueDate.setDate(dueDate.getDate() + (term * 7));
                         break;
-                    case 'Bi-Monthly':
-                        dueDate.setMonth(dueDate.getMonth() + Math.ceil(term / 2));
-                        break;
                     case 'Monthly':
                         dueDate.setMonth(dueDate.getMonth() + term);
                         break;
                     case 'Yearly':
-                        dueDate.setFullYear(dueDate.getFullYear() + Math.floor(term / 12));
+                        dueDate.setFullYear(dueDate.getFullYear() + term);
                         break;
                     default:
-                        dueDate = new Date();
                         break;
                 }
-
-                var baseAmountPerTerm = amount / paymentTerms;
-                var interestAmount = baseAmountPerTerm * (interest / 100);
-                var amountPaidPerTerm = baseAmountPerTerm + interestAmount;
-                var totalReceivable = amountPaidPerTerm * paymentTerms;
-                var totalAfterDeductions = totalReceivable - deduction;
-
-                $('input[name="AmountPaid"]').val(amountPaidPerTerm.toFixed(2));
-                $('input[name="InterestAmount"]').val(interestAmount.toFixed(2));
-                $('input[name="Total"]').val(totalAfterDeductions.toFixed(2));
-                $('input[name="ReceivableAmount"]').val(totalReceivable.toFixed(2));
-                $('input[name="DueDate"]').val(dueDate.toISOString().split('T')[0]);
+                var formattedDate = dueDate.toISOString().slice(0, 10);
+                document.getElementById('dueDate').value = formattedDate;
             }
 
-            $('input[name="Amount"], input[name="Term"], input[name="Interest"], input[name="Deduction"], select[name="Payment"]').on('input change', calculateLoanDetails);
+            updateLoanDetails();
 
-            calculateLoanDetails();
+            document.getElementById('Term').addEventListener('input', updateLoanDetails);
+            document.getElementById('paymentSelect').addEventListener('change', updateLoanDetails);
+            document.getElementById('Amount').addEventListener('input', updateLoanDetails);
+            document.getElementById('Interest').addEventListener('input', updateLoanDetails);
+            document.getElementById('Deduction').addEventListener('input', updateLoanDetails);
         });
     </script>
 </body>
-
 </html>
